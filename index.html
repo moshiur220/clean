@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#2563EB" />
+  <meta name="description" content="CleanInspect — Professional Cleaning Inspection & Quality Control application for commercial facilities, offices, and hotels." />
+  <title>CleanInspect — Cleaning Inspection & Quality Control</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- App Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+
+  <!-- PDF & Canvas Export CDN Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8OX4wiJTxERmqMDh3kV87PEhfZOjqStF54JJGoZZFTOBHwd+zMpYNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+  <div id="app">
+    
+    <!-- ======================================================================
+         Desktop Sidebar Navigation (>= 1024px)
+         ====================================================================== -->
+    <aside class="app-sidebar no-print">
+      <div class="sidebar-header">
+        <a href="#dashboard" class="sidebar-brand">
+          <img src="assets/logo.svg" alt="CleanInspect" />
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <!-- Dashboard -->
+        <a href="#dashboard" class="nav-link active" data-nav="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Dashboard</span>
+        </a>
+
+        <!-- Categories -->
+        <a href="#categories" class="nav-link" data-nav="categories">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+          <span>Categories</span>
+          <span class="nav-badge">8</span>
+        </a>
+
+        <!-- Inspections -->
+        <a href="#inspections" class="nav-link" data-nav="inspections">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+          <span>Inspections</span>
+        </a>
+
+        <!-- Reports -->
+        <a href="#reports" class="nav-link" data-nav="reports">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          <span>Reports</span>
+        </a>
+
+        <!-- Quality Issues -->
+        <a href="#issues" class="nav-link" data-nav="issues">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span>Quality Issues</span>
+        </a>
+
+        <!-- Profile & Settings -->
+        <a href="#profile" class="nav-link" data-nav="profile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Profile &amp; Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-snippet">
+          <div class="user-avatar">DW</div>
+          <div class="user-info">
+            <div class="user-name">David Wilson</div>
+            <div class="user-role">Demo Administrator</div>
+          </div>
+          <button class="btn btn-icon btn-ghost logout-trigger" title="Sign Out">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ======================================================================
+         Main App Layout
+         ====================================================================== -->
+    <main class="app-main">
+      
+      <!-- Mobile Top Header (< 1024px) -->
+      <header class="mobile-header no-print">
+        <a href="#dashboard" class="mobile-brand">
+          <img src="assets/logo.svg" alt="CleanInspect" />
+        </a>
+        <div class="mobile-actions">
+          <a href="#profile" class="btn btn-icon btn-ghost" title="User Profile">
+            <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.75rem;">DW</div>
+          </a>
+        </div>
+      </header>
+
+      <!-- Dynamic Page Container (Screen router injected here) -->
+      <div class="page-container" id="main-content">
+        <!-- Rendered by Router -->
+      </div>
+
+      <!-- Mobile Bottom Navigation Bar (< 1024px) -->
+      <nav class="mobile-bottom-nav no-print">
+        <a href="#dashboard" class="bottom-nav-item active" data-nav="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="#categories" class="bottom-nav-item" data-nav="categories">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+          <span>Categories</span>
+        </a>
+
+        <a href="#inspections" class="bottom-nav-item" data-nav="inspections">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+          <span>Inspections</span>
+        </a>
+
+        <a href="#reports" class="bottom-nav-item" data-nav="reports">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <span>Reports</span>
+        </a>
+
+        <a href="#profile" class="bottom-nav-item" data-nav="profile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Profile</span>
+        </a>
+      </nav>
+
+    </main>
+
+  </div>
+
+  <!-- JavaScript Modules in Dependency Order -->
+  <script src="js/utils.js"></script>
+  <script src="js/seed-data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/categories.js"></script>
+  <script src="js/inspections.js"></script>
+  <script src="js/checklist.js"></script>
+  <script src="js/summary.js"></script>
+  <script src="js/reports.js"></script>
+  <script src="js/pdf.js"></script>
+  <script src="js/issues.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

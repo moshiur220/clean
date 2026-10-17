@@ -1,0 +1,275 @@
+/* CleanInspect Responsive & Print Styles - responsive.css */
+
+/* ==========================================================================
+   Mobile-First Base Adjustments (< 768px)
+   ========================================================================== */
+@media (max-width: 767px) {
+  .desktop-only {
+    display: none !important;
+  }
+  
+  .table-desktop {
+    display: none !important;
+  }
+
+  .cards-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .action-bar-sticky {
+    position: fixed;
+    bottom: var(--bottomnav-height);
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-top: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+    display: flex;
+    gap: 0.75rem;
+    z-index: 34;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  .report-sheet {
+    padding: 1.25rem;
+    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+  }
+}
+
+/* ==========================================================================
+   Tablet Breakpoint (>= 768px)
+   ========================================================================== */
+@media (min-width: 768px) {
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .filter-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+}
+
+/* ==========================================================================
+   Desktop Breakpoint (>= 1024px)
+   ========================================================================== */
+@media (min-width: 1024px) {
+  /* Show Desktop Sidebar & Hide Mobile Navigation */
+  .app-sidebar {
+    display: flex;
+  }
+
+  .mobile-header,
+  .mobile-bottom-nav {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: none !important;
+  }
+
+  .app-main {
+    margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+  }
+
+  .page-container {
+    padding: 2rem 2.5rem;
+    padding-bottom: 3rem;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  /* Tables on desktop */
+  .table-desktop {
+    display: table;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .table-desktop th {
+    background: var(--bg-subtle);
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.875rem 1.25rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .table-desktop td {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-main);
+    font-size: 0.9375rem;
+    vertical-align: middle;
+  }
+
+  .table-desktop tr:last-child td {
+    border-bottom: none;
+  }
+
+  .table-desktop tr:hover td {
+    background-color: #F8FAFC;
+  }
+
+  /* A4 Document-style Report Preview on Desktop */
+  .report-preview-container {
+    background: #525659;
+    padding: 2.5rem 1.5rem;
+    border-radius: var(--radius-lg);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow-x: auto;
+  }
+
+  .report-sheet {
+    width: 100%;
+    max-width: 820px; /* Standard A4 aspect-ratio display */
+    background: #FFFFFF;
+    color: #0F172A;
+    padding: 3rem 3.5rem;
+    border-radius: 4px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+    min-height: 1100px;
+  }
+}
+
+/* ==========================================================================
+   Print Stylesheet (@media print)
+   ========================================================================== */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 15mm 15mm 15mm 15mm;
+  }
+
+  *, *::before, *::after {
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  body {
+    background: #FFFFFF !important;
+    font-size: 11pt;
+    line-height: 1.4;
+  }
+
+  /* Hide interactive application elements completely */
+  .app-sidebar,
+  .mobile-header,
+  .mobile-bottom-nav,
+  .report-controls-bar,
+  .btn,
+  .toast-container,
+  .modal-overlay,
+  .action-bar-sticky,
+  .no-print {
+    display: none !important;
+  }
+
+  .app-main {
+    margin: 0 !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .page-container {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .report-preview-container {
+    background: transparent !important;
+    padding: 0 !important;
+  }
+
+  .report-sheet {
+    max-width: 100% !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: #FFFFFF !important;
+  }
+
+  /* Force elements not to break awkwardly across pages */
+  .report-section,
+  .report-issue-card,
+  .category-result-row,
+  .sign-off-block,
+  tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  h1, h2, h3, h4 {
+    page-break-after: avoid;
+    break-after: avoid;
+    color: #000 !important;
+  }
+
+  /* Ensure photos render nicely */
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid;
+  }
+
+  .photo-thumbnails-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .photo-thumb-wrap {
+    width: 100px !important;
+    height: 100px !important;
+    border: 1px solid #999 !important;
+  }
+
+  /* Print link footnotes if useful or clean text */
+  a[href^="http"]:after {
+    content: "";
+  }
+}
