@@ -1,10 +1,11 @@
 /* CleanInspect Design System - styles.css */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+/* Note: mobile.css contains the premium redesign overrides */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
-  /* Color Palette */
-  --primary: #2563EB;
-  --primary-hover: #1D4ED8;
+  /* Color Palette (Base — overridden by mobile.css tokens) */
+  --primary: #3B82F6;
+  --primary-hover: #2563EB;
   --primary-light: #EFF6FF;
   --primary-border: #BFDBFE;
   
@@ -92,6 +93,7 @@ body {
   flex-direction: column;
   overflow-x: hidden;
   background-color: var(--bg-app);
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 }
 
 /* Typography Hierarchy */
