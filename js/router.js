@@ -47,6 +47,7 @@ const Router = {
     const bottomNav = document.querySelector('.mobile-bottom-nav');
 
     if (hash === '#login') {
+      document.body.classList.add('is-login');
       if (sidebar) sidebar.style.display = 'none';
       if (mobileHeader) mobileHeader.style.display = 'none';
       if (bottomNav) bottomNav.style.display = 'none';
@@ -54,6 +55,7 @@ const Router = {
       Auth.renderLogin(container);
       return;
     } else {
+      document.body.classList.remove('is-login');
       if (sidebar) sidebar.style.display = '';
       if (mobileHeader) mobileHeader.style.display = '';
       if (bottomNav) bottomNav.style.display = '';
