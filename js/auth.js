@@ -56,7 +56,7 @@ const Auth = {
 
     return {
       success: false,
-      message: 'Invalid credentials. Please use admin@gmail.com / 12345.'
+      message: I18n.t('auth.invalidCreds')
     };
   },
 
@@ -65,7 +65,7 @@ const Auth = {
    */
   logout() {
     Storage.clearSession();
-    Utils.showToast('You have been signed out.', 'info');
+    Utils.showToast(I18n.t('auth.signedOut'), 'info');
     window.location.hash = '#login';
   },
 
@@ -73,6 +73,7 @@ const Auth = {
    * Render the Login Screen (Screen 1)
    */
   renderLogin(container) {
+    const t = (k) => I18n.t(k);
     container.innerHTML = `
       <div style="
         min-height: 100vh;
@@ -105,8 +106,8 @@ const Auth = {
                 <path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/>
               </svg>
             </div>
-            <h1 style="font-size: 1.875rem; font-weight: 900; color: #fff; letter-spacing: -0.03em; margin-bottom: 0.375rem; font-family: 'Plus Jakarta Sans', sans-serif;">CleanInspect</h1>
-            <p style="font-size: 0.875rem; color: rgba(255,255,255,0.55); font-weight: 500; letter-spacing: 0.02em; text-transform: uppercase;">Quality Control Platform</p>
+            <h1 style="font-size: 1.875rem; font-weight: 900; color: #fff; letter-spacing: -0.03em; margin-bottom: 0.375rem; font-family: 'Plus Jakarta Sans', sans-serif;">${t('appName')}</h1>
+            <p style="font-size: 0.875rem; color: rgba(255,255,255,0.55); font-weight: 500; letter-spacing: 0.02em; text-transform: uppercase;">${t('appTagline')}</p>
           </div>
 
           <!-- Login Card -->
@@ -121,8 +122,8 @@ const Auth = {
           ">
 
             <div style="margin-bottom: 1.625rem;">
-              <h2 style="font-size: 1.375rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.25rem; letter-spacing: -0.025em;">Welcome back 👋</h2>
-              <p style="font-size: 0.8375rem; color: var(--text-muted); font-weight: 500;">Sign in to access your inspection dashboard</p>
+              <h2 style="font-size: 1.375rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.25rem; letter-spacing: -0.025em;">${t('auth.welcomeBack')}</h2>
+              <p style="font-size: 0.8375rem; color: var(--text-muted); font-weight: 500;">${t('auth.signInSubtitle')}</p>
             </div>
 
             <!-- Error Alert -->
@@ -137,7 +138,7 @@ const Auth = {
             <form id="login-form" novalidate>
               <!-- Email Field -->
               <div class="form-group" style="margin-bottom: 1rem;">
-                <label class="form-label" for="login-email" style="color: var(--text-secondary); margin-bottom: 0.35rem; display: block;">Email</label>
+                <label class="form-label" for="login-email" style="color: var(--text-secondary); margin-bottom: 0.35rem; display: block;">${t('auth.email')}</label>
                 <div class="input-wrapper">
                   <span class="input-icon-left" style="color: var(--text-muted);">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -159,7 +160,7 @@ const Auth = {
 
               <!-- Password Field -->
               <div class="form-group" style="margin-bottom: 1.5rem;">
-                <label class="form-label" for="login-password" style="color: var(--text-secondary); margin-bottom: 0.35rem; display: block;">Password</label>
+                <label class="form-label" for="login-password" style="color: var(--text-secondary); margin-bottom: 0.35rem; display: block;">${t('auth.password')}</label>
                 <div class="input-wrapper">
                   <span class="input-icon-left" style="color: var(--text-muted);">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -193,7 +194,7 @@ const Auth = {
 
               <!-- Sign In Button -->
               <button type="submit" id="login-submit-btn" class="btn btn-primary btn-block" style="height: 50px; font-size: 1rem; border-radius: 14px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; letter-spacing: -0.01em;">
-                <span>Sign In</span>
+                <span>${t('auth.signIn')}</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
                 </svg>
@@ -205,10 +206,10 @@ const Auth = {
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.35rem;">
                 <span style="font-size: 0.75rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 0.3rem; text-transform: uppercase; letter-spacing: 0.04em;">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-                  Demo Credentials
+                  ${t('auth.demoCreds')}
                 </span>
                 <button type="button" id="fill-demo-btn" style="background: var(--primary); color: #fff; border: none; padding: 0.2rem 0.6rem; border-radius: var(--radius-full); font-size: 0.7rem; font-weight: 700; cursor: pointer; font-family: inherit;">
-                  Auto-fill
+                  ${t('auth.autoFill')}
                 </button>
               </div>
               <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
@@ -221,7 +222,7 @@ const Auth = {
 
           <!-- Footer note -->
           <p style="margin-top: 1.5rem; text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.3); font-weight: 500;">
-            Cleaning Inspection &amp; Quality Control · Demo Only
+            ${t('auth.footerNote')}
           </p>
         </div>
       </div>
@@ -252,7 +253,7 @@ const Auth = {
       emailInput.value = Auth.DEMO_EMAIL;
       passwordInput.value = Auth.DEMO_PASS;
       errorAlert.classList.add('hidden');
-      Utils.showToast('Demo credentials populated!', 'info', 2000);
+      Utils.showToast(I18n.t('auth.demoPopulated'), 'info', 2000);
     });
 
     // Form submit
@@ -262,7 +263,7 @@ const Auth = {
 
       const result = Auth.login(emailInput.value, passwordInput.value);
       if (result.success) {
-        Utils.showToast('Welcome back, David Wilson!', 'success');
+        Utils.showToast(I18n.t('auth.welcomeToast'), 'success');
         window.location.hash = '#dashboard';
       } else {
         errorMessage.textContent = result.message;

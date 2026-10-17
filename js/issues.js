@@ -4,14 +4,16 @@
  */
 
 const Issues = {
-  LIFECYCLE_STEPS: [
-    { key: 'reported', label: 'Reported' },
-    { key: 'under_review', label: 'Under Review' },
-    { key: 'assigned', label: 'Assigned' },
-    { key: 'in_progress', label: 'In Progress' },
-    { key: 'resolved', label: 'Resolved' },
-    { key: 'verified', label: 'Verified / Closed' }
-  ],
+  getLifecycleSteps() {
+    return [
+      { key: 'reported', label: I18n.t('issues.reported') },
+      { key: 'under_review', label: I18n.t('issues.underReview') },
+      { key: 'assigned', label: I18n.t('issues.assigned') },
+      { key: 'in_progress', label: I18n.t('issues.inProgress') },
+      { key: 'resolved', label: I18n.t('issues.resolved') },
+      { key: 'verified', label: I18n.t('issues.verifiedClosed') }
+    ];
+  },
 
   /**
    * Screen 15 — Issues List
@@ -23,11 +25,11 @@ const Issues = {
       <div class="view-header">
         <div class="view-header-row">
           <div class="view-title-group">
-            <h1>Quality Deficiencies &amp; Issues</h1>
-            <div class="view-subtitle">Cross-facility issue tracking, priority triage, and resolution lifecycle</div>
+            <h1>${I18n.t('issues.title')}</h1>
+            <div class="view-subtitle">${I18n.t('issues.subtitle')}</div>
           </div>
           <div style="font-size: 0.8125rem; color: var(--danger); background: var(--danger-light); padding: 0.35rem 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--danger-border); font-weight: 700;">
-            ${allIssues.filter(i => i.status !== 'resolved' && i.status !== 'verified').length} Active Issues
+            ${I18n.t('issues.activeIssuesCount', { count: allIssues.filter(i => i.status !== 'resolved' && i.status !== 'verified').length })}
           </div>
         </div>
       </div>
@@ -43,29 +45,29 @@ const Issues = {
               type="text" 
               id="issues-search" 
               class="form-input has-icon-left" 
-              placeholder="Search issues by title, location, category, or reference..." 
+              placeholder="${I18n.t('issues.searchPlaceholder')}" 
             />
           </div>
 
           <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between;">
             <!-- Priority Filter -->
             <div style="display: flex; align-items: center; gap: 0.35rem;" id="issue-priority-pills">
-              <button class="btn btn-sm btn-primary active" data-priority="all">All Priorities</button>
-              <button class="btn btn-sm btn-secondary" data-priority="high">High</button>
-              <button class="btn btn-sm btn-secondary" data-priority="medium">Medium</button>
-              <button class="btn btn-sm btn-secondary" data-priority="low">Low</button>
+              <button class="btn btn-sm btn-primary active" data-priority="all">${I18n.t('issues.allPriorities')}</button>
+              <button class="btn btn-sm btn-secondary" data-priority="high">${I18n.t('issues.high')}</button>
+              <button class="btn btn-sm btn-secondary" data-priority="medium">${I18n.t('issues.medium')}</button>
+              <button class="btn btn-sm btn-secondary" data-priority="low">${I18n.t('issues.low')}</button>
             </div>
 
             <!-- Status Filter -->
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <select id="issue-status-filter" class="form-select" style="min-height: 36px; padding: 0.35rem 0.65rem; font-size: 0.8125rem;">
-                <option value="all">All Statuses</option>
-                <option value="reported">Reported</option>
-                <option value="under_review">Under Review</option>
-                <option value="assigned">Assigned</option>
-                <option value="in_progress">In Progress</option>
-                <option value="resolved">Resolved</option>
-                <option value="verified">Verified / Closed</option>
+                <option value="all">${I18n.t('issues.allStatuses')}</option>
+                <option value="reported">${I18n.t('issues.reported')}</option>
+                <option value="under_review">${I18n.t('issues.underReview')}</option>
+                <option value="assigned">${I18n.t('issues.assigned')}</option>
+                <option value="in_progress">${I18n.t('issues.inProgress')}</option>
+                <option value="resolved">${I18n.t('issues.resolved')}</option>
+                <option value="verified">${I18n.t('issues.verifiedClosed')}</option>
               </select>
             </div>
           </div>
@@ -114,8 +116,8 @@ const Issues = {
         listContainer.innerHTML = `
           <div class="card" style="text-align: center; padding: 3rem 1rem;">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--text-muted); margin: 0 auto 0.75rem;"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-            <h3 style="font-size: 1.15rem; color: var(--text-main); margin-bottom: 0.25rem;">No quality issues found</h3>
-            <p style="font-size: 0.875rem; color: var(--text-muted);">All parameters comply with current filter criteria.</p>
+            <h3 style="font-size: 1.15rem; color: var(--text-main); margin-bottom: 0.25rem;">${I18n.t('issues.noIssuesFound')}</h3>
+            <p style="font-size: 0.875rem; color: var(--text-muted);">${I18n.t('issues.noIssuesDesc')}</p>
           </div>
         `;
         return;
@@ -134,7 +136,7 @@ const Issues = {
                       <span>&bull;</span>
                       <span style="color: var(--primary);">${Utils.escapeHtml(iss.location)}</span>
                       <span>&bull;</span>
-                      <span>Ref: ${iss.inspectionRef}</span>
+                      <span>${I18n.t('common.ref')}: ${iss.inspectionRef}</span>
                     </div>
                     <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-top: 0.2rem;">
                       <a href="#issue-detail/${iss.id}" style="color: inherit;">${Utils.escapeHtml(iss.title)}</a>
@@ -148,12 +150,12 @@ const Issues = {
                 </div>
 
                 <div style="font-size: 0.8125rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
-                  <strong>Standard:</strong> ${Utils.escapeHtml(iss.category)} &bull; ${Utils.escapeHtml(iss.checklistItem)}
+                  <strong>${I18n.t('issues.standard')}</strong> ${Utils.escapeHtml(iss.category)} &bull; ${Utils.escapeHtml(iss.checklistItem)}
                 </div>
 
                 ${iss.comment ? `
                   <div style="font-size: 0.8125rem; color: var(--text-main); background: var(--bg-subtle); padding: 0.6rem 0.85rem; border-radius: var(--radius-md); margin-bottom: 0.75rem;">
-                    <strong>Observation:</strong> ${Utils.escapeHtml(iss.comment)}
+                    <strong>${I18n.t('issues.observation')}</strong> ${Utils.escapeHtml(iss.comment)}
                   </div>
                 ` : ''}
 
@@ -170,14 +172,14 @@ const Issues = {
 
                 <div class="card-footer" style="padding-top: 0.75rem; margin-top: 0.75rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
                   <span style="font-size: 0.75rem; color: var(--text-muted);">
-                    Reported: ${Utils.formatDate(iss.reportedDate)}
+                    ${I18n.t('issues.reportedDate')} ${Utils.formatDate(iss.reportedDate)}
                   </span>
                   <div style="display: flex; gap: 0.5rem; align-items: center;">
                     <a href="#inspection-detail/${iss.inspectionId}" class="btn btn-ghost btn-sm" style="font-size: 0.75rem;">
-                      Audit Log
+                      ${I18n.t('issues.auditLog')}
                     </a>
                     <a href="#issue-detail/${iss.id}" class="btn btn-outline-primary btn-sm">
-                      Manage &amp; Resolve &rarr;
+                      ${I18n.t('issues.manageResolve')}
                     </a>
                   </div>
                 </div>
@@ -215,28 +217,29 @@ const Issues = {
     if (!issue) {
       container.innerHTML = `
         <div class="card" style="text-align: center; padding: 3rem 1rem;">
-          <h2>Issue Not Found</h2>
-          <p style="margin: 0.5rem 0 1.5rem;">Issue reference "${issueId}" could not be located.</p>
-          <a href="#issues" class="btn btn-primary">Return to Issues</a>
+          <h2>${I18n.t('issues.issueNotFound')}</h2>
+          <p style="margin: 0.5rem 0 1.5rem;">${I18n.t('issues.issueNotFoundDesc', { id: issueId })}</p>
+          <a href="#issues" class="btn btn-primary">${I18n.t('issues.returnToIssues')}</a>
         </div>
       `;
       return;
     }
 
+    const lifecycleSteps = this.getLifecycleSteps();
     const currentStatus = (issue.status || 'reported').toLowerCase().replace(/[\s-]/g, '_');
-    const currentStepIndex = this.LIFECYCLE_STEPS.findIndex(s => s.key === currentStatus);
+    const currentStepIndex = lifecycleSteps.findIndex(s => s.key === currentStatus);
     const photos = Array.isArray(issue.photos) ? issue.photos : [];
 
     container.innerHTML = `
       <div class="view-header">
         <div class="view-header-row">
           <div style="display: flex; align-items: center; gap: 0.75rem;">
-            <a href="#issues" class="btn btn-icon btn-secondary" title="Back to Issues">
+            <a href="#issues" class="btn btn-icon btn-secondary" title="${I18n.t('issues.returnToIssues')}">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
             </a>
             <div class="view-title-group">
               <h1>${Utils.escapeHtml(issue.title)}</h1>
-              <div class="view-subtitle">Issue ID: <strong>${issue.id}</strong> &bull; ${Utils.escapeHtml(issue.location)}</div>
+              <div class="view-subtitle">${I18n.t('issues.issueId')}: <strong>${issue.id}</strong> &bull; ${Utils.escapeHtml(issue.location)}</div>
             </div>
           </div>
           <div style="display: flex; gap: 0.35rem; align-items: center;">
@@ -249,10 +252,10 @@ const Issues = {
       <!-- Lifecycle Progress Stepper -->
       <div class="card" style="margin-bottom: 1.5rem; padding: 1.25rem;">
         <h3 style="font-size: 0.875rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 1rem;">
-          Resolution Lifecycle Tracking
+          ${I18n.t('issues.lifecycleTracking')}
         </h3>
         <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.35rem; text-align: center;">
-          ${this.LIFECYCLE_STEPS.map((step, idx) => {
+          ${lifecycleSteps.map((step, idx) => {
             const isCompleted = idx < currentStepIndex;
             const isCurrent = idx === currentStepIndex;
             let stepBg = 'var(--bg-muted)';
@@ -288,30 +291,30 @@ const Issues = {
         <!-- Metadata -->
         <div class="card">
           <h2 style="font-size: 1.1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
-            Issue Specifications
+            ${I18n.t('issues.specifications')}
           </h2>
           <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.875rem;">
             <div>
-              <span style="color: var(--text-muted); font-size: 0.8125rem; display: block;">Facility Location</span>
+              <span style="color: var(--text-muted); font-size: 0.8125rem; display: block;">${I18n.t('issues.facilityLocation')}</span>
               <strong style="color: var(--text-main);">${Utils.escapeHtml(issue.location)}</strong>
             </div>
             <div>
-              <span style="color: var(--text-muted); font-size: 0.8125rem; display: block;">Audit Reference</span>
+              <span style="color: var(--text-muted); font-size: 0.8125rem; display: block;">${I18n.t('issues.auditReference')}</span>
               <a href="#inspection-detail/${issue.inspectionId}" style="font-weight: 600;">
-                ${issue.inspectionRef} (View Audit) &rarr;
+                ${issue.inspectionRef} (${I18n.t('issues.viewAudit')}) &rarr;
               </a>
             </div>
             <div>
-              <span style="color: var(--text-muted); font-size: 0.8125rem; display: block;">Cleaning Category &amp; Task</span>
+              <span style="color: var(--text-muted); font-size: 0.8125rem; display: block;">${I18n.t('issues.categoryAndTask')}</span>
               <span style="color: var(--text-main); font-weight: 600;">${Utils.escapeHtml(issue.category)}</span>
               <div style="font-size: 0.8125rem; color: var(--text-secondary); margin-top: 0.15rem;">${Utils.escapeHtml(issue.checklistItem)}</div>
             </div>
             <div>
-              <span style="color: var(--text-muted); font-size: 0.8125rem; display: block;">Reported Timestamp</span>
+              <span style="color: var(--text-muted); font-size: 0.8125rem; display: block;">${I18n.t('issues.reportedTimestamp')}</span>
               <span style="color: var(--text-main);">${Utils.formatDateTime(issue.reportedDate)}</span>
             </div>
             <div>
-              <span style="color: var(--text-muted); font-size: 0.8125rem; display: block;">Inspector Observation</span>
+              <span style="color: var(--text-muted); font-size: 0.8125rem; display: block;">${I18n.t('issues.inspectorObservation')}</span>
               <p style="background: var(--bg-subtle); padding: 0.6rem 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); margin-top: 0.25rem; color: var(--text-main); line-height: 1.4;">
                 ${Utils.escapeHtml(issue.comment || 'Deficiency recorded during inspection.')}
               </p>
@@ -322,12 +325,12 @@ const Issues = {
         <!-- Evidence Gallery -->
         <div class="card">
           <h2 style="font-size: 1.1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
-            Photo Evidence (${photos.length})
+            ${I18n.t('issues.photoEvidence')} (${photos.length})
           </h2>
 
           ${photos.length === 0 ? `
             <div style="text-align: center; padding: 2rem 1rem; color: var(--text-muted); font-size: 0.875rem;">
-              No photos attached to this deficiency record.
+              ${I18n.t('issues.noPhotosAttached')}
             </div>
           ` : `
             <div class="photo-thumbnails-grid">
@@ -345,43 +348,43 @@ const Issues = {
       <!-- Action & Lifecycle Status Editor -->
       <div class="card" style="margin-bottom: 2rem;">
         <h2 style="font-size: 1.15rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
-          Update Status &amp; Corrective Notes
+          ${I18n.t('issues.updateStatusTitle')}
         </h2>
 
         <form id="update-issue-form">
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
             <div class="form-group">
-              <label class="form-label" for="edit-issue-status">Lifecycle Status</label>
+              <label class="form-label" for="edit-issue-status">${I18n.t('issues.lifecycleStatus')}</label>
               <select id="edit-issue-status" class="form-select">
-                <option value="reported" ${currentStatus === 'reported' ? 'selected' : ''}>Reported</option>
-                <option value="under_review" ${currentStatus === 'under_review' ? 'selected' : ''}>Under Review</option>
-                <option value="assigned" ${currentStatus === 'assigned' ? 'selected' : ''}>Assigned to Crew</option>
-                <option value="in_progress" ${currentStatus === 'in_progress' ? 'selected' : ''}>In Progress</option>
-                <option value="resolved" ${currentStatus === 'resolved' ? 'selected' : ''}>Resolved</option>
-                <option value="verified" ${currentStatus === 'verified' ? 'selected' : ''}>Verified &amp; Closed</option>
+                <option value="reported" ${currentStatus === 'reported' ? 'selected' : ''}>${I18n.t('issues.reported')}</option>
+                <option value="under_review" ${currentStatus === 'under_review' ? 'selected' : ''}>${I18n.t('issues.underReview')}</option>
+                <option value="assigned" ${currentStatus === 'assigned' ? 'selected' : ''}>${I18n.t('issues.assignedCrew')}</option>
+                <option value="in_progress" ${currentStatus === 'in_progress' ? 'selected' : ''}>${I18n.t('issues.inProgress')}</option>
+                <option value="resolved" ${currentStatus === 'resolved' ? 'selected' : ''}>${I18n.t('issues.resolved')}</option>
+                <option value="verified" ${currentStatus === 'verified' ? 'selected' : ''}>${I18n.t('issues.verifiedAndClosed')}</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="edit-issue-priority">Priority Level</label>
+              <label class="form-label" for="edit-issue-priority">${I18n.t('issues.priorityLevel')}</label>
               <select id="edit-issue-priority" class="form-select">
-                <option value="high" ${issue.priority === 'high' ? 'selected' : ''}>High Priority (Immediate)</option>
-                <option value="medium" ${issue.priority === 'medium' ? 'selected' : ''}>Medium Priority (Standard)</option>
-                <option value="low" ${issue.priority === 'low' ? 'selected' : ''}>Low Priority (Minor)</option>
+                <option value="high" ${issue.priority === 'high' ? 'selected' : ''}>${I18n.t('issues.highImmediate')}</option>
+                <option value="medium" ${issue.priority === 'medium' ? 'selected' : ''}>${I18n.t('issues.mediumStandard')}</option>
+                <option value="low" ${issue.priority === 'low' ? 'selected' : ''}>${I18n.t('issues.lowMinor')}</option>
               </select>
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="edit-issue-notes">Resolution Notes / Dispatch Log</label>
-            <textarea id="edit-issue-notes" class="form-textarea" rows="3" placeholder="Enter remediation updates, assigned cleaner name, or completion notes...">${Utils.escapeHtml(issue.resolutionNotes || '')}</textarea>
+            <label class="form-label" for="edit-issue-notes">${I18n.t('issues.resolutionNotesLabel')}</label>
+            <textarea id="edit-issue-notes" class="form-textarea" rows="3" placeholder="${I18n.t('issues.notesPlaceholder')}">${Utils.escapeHtml(issue.resolutionNotes || '')}</textarea>
           </div>
 
           <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1rem;">
-            <a href="#issues" class="btn btn-secondary">Cancel</a>
+            <a href="#issues" class="btn btn-secondary">${I18n.t('issues.cancel')}</a>
             <button type="submit" class="btn btn-primary">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-              Save Changes
+              ${I18n.t('issues.saveChanges')}
             </button>
           </div>
         </form>
@@ -401,7 +404,7 @@ const Issues = {
       issue.updatedAt = new Date().toISOString();
 
       Storage.saveIssue(issue);
-      Utils.showToast(`Issue ${issue.id} updated!`, 'success');
+      Utils.showToast(I18n.t('issues.toastUpdated', { id: issue.id }), 'success');
       Issues.renderDetail(container, issueId);
     });
   }

@@ -12,6 +12,10 @@ const Router = {
     this.handleRoute();
   },
 
+  render() {
+    this.handleRoute();
+  },
+
   handleRoute() {
     let hash = window.location.hash || '#dashboard';
     

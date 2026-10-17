@@ -12,7 +12,8 @@ const Utils = {
     try {
       const date = new Date(dateStr);
       if (isNaN(date.getTime())) return dateStr;
-      return date.toLocaleDateString('en-US', {
+      const locale = (typeof I18n !== 'undefined' && I18n.currentLang === 'sv') ? 'sv-SE' : 'en-US';
+      return date.toLocaleDateString(locale, {
         month: 'short',
         day: 'numeric',
         year: 'numeric'
@@ -30,7 +31,8 @@ const Utils = {
     try {
       const date = new Date(dateStr);
       if (isNaN(date.getTime())) return dateStr;
-      return date.toLocaleDateString('en-US', {
+      const locale = (typeof I18n !== 'undefined' && I18n.currentLang === 'sv') ? 'sv-SE' : 'en-US';
+      return date.toLocaleDateString(locale, {
         month: 'short',
         day: 'numeric',
         year: 'numeric',
@@ -50,7 +52,8 @@ const Utils = {
     try {
       const date = new Date(dateStr);
       if (isNaN(date.getTime())) return dateStr;
-      return date.toLocaleTimeString('en-US', {
+      const locale = (typeof I18n !== 'undefined' && I18n.currentLang === 'sv') ? 'sv-SE' : 'en-US';
+      return date.toLocaleTimeString(locale, {
         hour: '2-digit',
         minute: '2-digit'
       });
@@ -74,29 +77,32 @@ const Utils = {
    */
   getStatusBadge(status) {
     const s = (status || '').toLowerCase().replace(/[\s-]/g, '_');
+    const t = (k, fallback) => (typeof I18n !== 'undefined' ? I18n.t(k) : fallback);
     switch (s) {
       case 'completed':
       case 'resolved':
       case 'verified':
+      case 'verified_closed':
       case 'verified/closed':
-        return `<span class="badge badge-completed"><span class="badge-dot"></span>Completed</span>`;
+        return `<span class="badge badge-completed"><span class="badge-dot"></span>${t('status.completed', 'Completed')}</span>`;
       case 'partial':
+        return `<span class="badge badge-partial"><span class="badge-dot"></span>${t('status.partial', 'Partial')}</span>`;
       case 'in_progress':
       case 'in-progress':
-        return `<span class="badge badge-partial"><span class="badge-dot"></span>In Progress</span>`;
+        return `<span class="badge badge-partial"><span class="badge-dot"></span>${t('status.in_progress', 'In Progress')}</span>`;
       case 'not_completed':
-        return `<span class="badge badge-not-completed"><span class="badge-dot"></span>Not Completed</span>`;
+        return `<span class="badge badge-not-completed"><span class="badge-dot"></span>${t('status.not_completed', 'Not Completed')}</span>`;
       case 'reported':
-        return `<span class="badge badge-reported"><span class="badge-dot"></span>Reported</span>`;
+        return `<span class="badge badge-reported"><span class="badge-dot"></span>${t('status.reported', 'Reported')}</span>`;
       case 'under_review':
-        return `<span class="badge badge-under-review"><span class="badge-dot"></span>Under Review</span>`;
+        return `<span class="badge badge-under-review"><span class="badge-dot"></span>${t('status.under_review', 'Under Review')}</span>`;
       case 'assigned':
-        return `<span class="badge badge-assigned"><span class="badge-dot"></span>Assigned</span>`;
+        return `<span class="badge badge-assigned"><span class="badge-dot"></span>${t('status.assigned', 'Assigned')}</span>`;
       case 'pending':
       case 'scheduled':
-        return `<span class="badge badge-pending"><span class="badge-dot"></span>Pending</span>`;
+        return `<span class="badge badge-pending"><span class="badge-dot"></span>${t('status.pending', 'Pending')}</span>`;
       default:
-        return `<span class="badge badge-unassessed"><span class="badge-dot"></span>Unassessed</span>`;
+        return `<span class="badge badge-unassessed"><span class="badge-dot"></span>${t('status.unassessed', 'Unassessed')}</span>`;
     }
   },
 
@@ -105,13 +111,14 @@ const Utils = {
    */
   getPriorityBadge(priority) {
     const p = (priority || 'medium').toLowerCase();
+    const isSv = typeof I18n !== 'undefined' && I18n.currentLang === 'sv';
     switch (p) {
       case 'high':
-        return `<span class="badge badge-high"><span class="badge-dot"></span>High Priority</span>`;
+        return `<span class="badge badge-high"><span class="badge-dot"></span>${isSv ? 'Hög prioritet' : 'High Priority'}</span>`;
       case 'medium':
-        return `<span class="badge badge-medium"><span class="badge-dot"></span>Medium Priority</span>`;
+        return `<span class="badge badge-medium"><span class="badge-dot"></span>${isSv ? 'Medel prioritet' : 'Medium Priority'}</span>`;
       case 'low':
-        return `<span class="badge badge-low"><span class="badge-dot"></span>Low Priority</span>`;
+        return `<span class="badge badge-low"><span class="badge-dot"></span>${isSv ? 'Låg prioritet' : 'Low Priority'}</span>`;
       default:
         return `<span class="badge badge-medium"><span class="badge-dot"></span>${priority}</span>`;
     }

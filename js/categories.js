@@ -58,16 +58,19 @@ const Categories = {
       }
     }
 
+    const t = (k, v) => (typeof I18n !== 'undefined' ? I18n.t(k, v) : k);
+    const isSv = typeof I18n !== 'undefined' && I18n.currentLang === 'sv';
+
     container.innerHTML = `
       <div class="view-header">
         <div class="view-header-row">
           <div class="view-title-group">
-            <h1>Cleaning Categories</h1>
-            <div class="view-subtitle">Quality standards across 8 key facility zones</div>
+            <h1>${t('categories.title')}</h1>
+            <div class="view-subtitle">${t('categories.subtitle')}</div>
           </div>
           ${currentInspection ? `
             <div style="font-size: 0.8125rem; background: var(--bg-card); padding: 0.35rem 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); color: var(--text-secondary);">
-              Benchmarked on: <strong>${Utils.escapeHtml(currentInspection.location)}</strong>
+              ${isSv ? 'Referensanläggning' : 'Benchmarked on'}: <strong>${Utils.escapeHtml(currentInspection.location)}</strong>
             </div>
           ` : ''}
         </div>
@@ -83,7 +86,7 @@ const Categories = {
             type="text" 
             id="category-search-input" 
             class="form-input has-icon-left" 
-            placeholder="Search categories (e.g. Reception, Bathrooms, Kitchen)..." 
+            placeholder="${isSv ? 'Sök kategorier (t.ex. Reception, Toaletter, Kök)...' : 'Search categories (e.g. Reception, Bathrooms, Kitchen)...'}" 
           />
         </div>
       </div>
@@ -99,17 +102,19 @@ const Categories = {
 
     function renderCategoryCards(filterText = '') {
       const q = filterText.trim().toLowerCase();
-      const filtered = categories.filter(c => 
-        c.name.toLowerCase().includes(q) || 
-        c.description.toLowerCase().includes(q)
-      );
+      const filtered = categories.filter(c => {
+        const catName = t(`categories.categoryNames.${c.id}`) || c.name;
+        return catName.toLowerCase().includes(q) || 
+               c.name.toLowerCase().includes(q) || 
+               c.description.toLowerCase().includes(q);
+      });
 
       if (filtered.length === 0) {
         gridContainer.innerHTML = `
           <div style="grid-column: 1 / -1; text-align: center; padding: 3rem 1rem;" class="card">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--text-muted); margin: 0 auto 0.75rem;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            <h3 style="color: var(--text-main); margin-bottom: 0.25rem;">No categories match your search</h3>
-            <p style="font-size: 0.875rem; color: var(--text-muted);">Try a different keyword</p>
+            <h3 style="color: var(--text-main); margin-bottom: 0.25rem;">${isSv ? 'Inga kategorier matchar din sökning' : 'No categories match your search'}</h3>
+            <p style="font-size: 0.875rem; color: var(--text-muted);">${isSv ? 'Prova ett annat sökord' : 'Try a different keyword'}</p>
           </div>
         `;
         return;
@@ -120,14 +125,16 @@ const Categories = {
         const total = stats.total || 4;
         const completed = stats.completed || 0;
         const rate = Utils.calcCompletionRate(completed, total);
+        const localizedName = t(`categories.categoryNames.${cat.id}`);
+        const catDisplayName = (localizedName && !localizedName.startsWith('categories.')) ? localizedName : cat.name;
 
-        let statusText = 'Compliant';
+        let statusText = isSv ? 'Godkänd' : 'Compliant';
         let badgeClass = 'badge-completed';
         if (rate === 0) {
-          statusText = 'Unassessed';
+          statusText = t('categories.unassessed');
           badgeClass = 'badge-unassessed';
         } else if (rate < 80) {
-          statusText = 'Needs Attention';
+          statusText = isSv ? 'Kräver åtgärd' : 'Needs Attention';
           badgeClass = 'badge-partial';
         }
 
@@ -141,7 +148,7 @@ const Categories = {
                 <span class="badge ${badgeClass}"><span class="badge-dot"></span>${statusText}</span>
               </div>
 
-              <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.35rem;">${Utils.escapeHtml(cat.name)}</h3>
+              <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.35rem;">${Utils.escapeHtml(catDisplayName)}</h3>
               <p style="font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 1rem;">
                 ${Utils.escapeHtml(cat.description)}
               </p>
@@ -150,8 +157,8 @@ const Categories = {
             <div>
               <div style="background: var(--bg-subtle); padding: 0.75rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
                 <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.35rem;">
-                  <span>Checklist Progress</span>
-                  <span><strong>${completed}/${total}</strong> Completed (${rate}%)</span>
+                  <span>${t('checklist.page1Title')} ${t('categories.progress')}</span>
+                  <span><strong>${completed}/${total}</strong> ${t('status.completed')} (${rate}%)</span>
                 </div>
                 <div class="progress-bar-container">
                   <div class="progress-bar-fill ${rate >= 80 ? 'success' : (rate > 0 ? 'warning' : '')}" style="width: ${rate}%;"></div>
@@ -161,11 +168,11 @@ const Categories = {
               <div style="display: flex; gap: 0.5rem;">
                 ${currentInspection ? `
                   <a href="#checklist/${currentInspection.id}?cat=${cat.id}" class="btn btn-outline-primary btn-sm btn-block">
-                    Inspect in Active Audit &rarr;
+                    ${isSv ? 'Inspektera i aktiv revision' : 'Inspect in Active Audit'} &rarr;
                   </a>
                 ` : `
                   <a href="#inspections" class="btn btn-secondary btn-sm btn-block">
-                    Select Inspection
+                    ${isSv ? 'Välj inspektion' : 'Select Inspection'}
                   </a>
                 `}
               </div>

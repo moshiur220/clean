@@ -22,11 +22,11 @@ const Reports = {
       <div class="view-header">
         <div class="view-header-row">
           <div class="view-title-group">
-            <h1>Inspection Reports</h1>
-            <div class="view-subtitle">Official cleaning quality compliance documentation &amp; audit trails</div>
+            <h1>${I18n.t('reports.title')}</h1>
+            <div class="view-subtitle">${I18n.t('reports.subtitle')}</div>
           </div>
           <div style="font-size: 0.8125rem; color: var(--text-muted); background: var(--bg-card); padding: 0.35rem 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
-            Total Reports: <strong>${reportsList.length}</strong>
+            ${I18n.t('reports.totalReportsCount', { count: reportsList.length })}
           </div>
         </div>
       </div>
@@ -42,22 +42,22 @@ const Reports = {
               type="text" 
               id="report-search" 
               class="form-input has-icon-left" 
-              placeholder="Search by Report ID, client, or location (e.g. REP-2026, Westfield, Miami)..." 
+              placeholder="${I18n.t('reports.searchPlaceholder')}" 
             />
           </div>
 
           <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between;">
             <div style="display: flex; gap: 0.35rem;" id="report-status-pills">
-              <button class="btn btn-sm btn-primary active" data-filter="all">All (${reportsList.length})</button>
-              <button class="btn btn-sm btn-secondary" data-filter="completed">Completed Audits</button>
-              <button class="btn btn-sm btn-secondary" data-filter="in_progress">Draft / In Progress</button>
+              <button class="btn btn-sm btn-primary active" data-filter="all">${I18n.t('reports.all')} (${reportsList.length})</button>
+              <button class="btn btn-sm btn-secondary" data-filter="completed">${I18n.t('reports.completedAudits')}</button>
+              <button class="btn btn-sm btn-secondary" data-filter="in_progress">${I18n.t('reports.draftInProgress')}</button>
             </div>
 
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <select id="report-sort" class="form-select" style="min-height: 36px; padding: 0.35rem 0.75rem; font-size: 0.8125rem;">
-                <option value="newest">Date: Newest First</option>
-                <option value="oldest">Date: Oldest First</option>
-                <option value="score">Compliance Score</option>
+                <option value="newest">${I18n.t('reports.newestFirst')}</option>
+                <option value="oldest">${I18n.t('reports.oldestFirst')}</option>
+                <option value="score">${I18n.t('reports.complianceScoreSort')}</option>
               </select>
             </div>
           </div>
@@ -107,8 +107,8 @@ const Reports = {
         viewContainer.innerHTML = `
           <div class="card" style="text-align: center; padding: 3rem 1.5rem;">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--text-muted); margin: 0 auto 0.75rem;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            <h3 style="font-size: 1.15rem; color: var(--text-main); margin-bottom: 0.25rem;">No inspection reports found</h3>
-            <p style="font-size: 0.875rem; color: var(--text-muted);">Try a different search term or filter.</p>
+            <h3 style="font-size: 1.15rem; color: var(--text-main); margin-bottom: 0.25rem;">${I18n.t('reports.noReportsFound')}</h3>
+            <p style="font-size: 0.875rem; color: var(--text-muted);">${I18n.t('reports.noReportsFoundDesc')}</p>
           </div>
         `;
         return;
@@ -130,13 +130,13 @@ const Reports = {
               </div>
 
               <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--text-muted); margin: 0.5rem 0;">
-                <span>Auditor: <strong>${Utils.escapeHtml(r.inspector || 'David Wilson')}</strong></span>
-                <span>Date: ${Utils.formatDate(r.completedDate || r.scheduledDate)}</span>
+                <span>${I18n.t('reports.auditor')}: <strong>${Utils.escapeHtml(r.inspector || 'David Wilson')}</strong></span>
+                <span>${I18n.t('reports.date')}: ${Utils.formatDate(r.completedDate || r.scheduledDate)}</span>
               </div>
 
               <div style="background: var(--bg-subtle); padding: 0.65rem 0.85rem; border-radius: var(--radius-md); margin: 0.75rem 0;">
                 <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.25rem;">
-                  <span>Audit Compliance Score</span>
+                  <span>${I18n.t('reports.auditComplianceScore')}</span>
                   <span style="color: ${r.completionRate >= 80 ? 'var(--success)' : 'var(--text-main)'};">${r.completionRate || 0}% (${r.completedItems || 0}/${r.totalItems || 0})</span>
                 </div>
                 <div class="progress-bar-container" style="height: 6px;">
@@ -147,12 +147,12 @@ const Reports = {
               <div class="card-footer" style="padding-top: 0.75rem; margin-top: 0.75rem; gap: 0.5rem; flex-wrap: wrap;">
                 <a href="#report-detail/${r.id}" class="btn btn-primary btn-sm" style="flex: 1.3;">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                  View Report
+                  ${I18n.t('reports.viewReport')}
                 </a>
-                <button class="btn btn-secondary btn-sm print-report-btn" data-id="${r.id}" title="Print Document">
+                <button class="btn btn-secondary btn-sm print-report-btn" data-id="${r.id}" title="${I18n.t('reports.printDocument')}">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
                 </button>
-                <button class="btn btn-secondary btn-sm download-pdf-btn" data-id="${r.id}" title="Download PDF">
+                <button class="btn btn-secondary btn-sm download-pdf-btn" data-id="${r.id}" title="${I18n.t('reports.downloadPdf')}">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 </button>
               </div>
@@ -166,13 +166,13 @@ const Reports = {
         <table class="table-desktop">
           <thead>
             <tr>
-              <th>Report Ref</th>
-              <th>Location & Client</th>
-              <th>Auditor</th>
-              <th>Audit Date</th>
-              <th>Score</th>
-              <th>Status</th>
-              <th style="text-align: right;">Actions</th>
+              <th>${I18n.t('reports.reportRef')}</th>
+              <th>${I18n.t('reports.locationClient')}</th>
+              <th>${I18n.t('reports.auditor')}</th>
+              <th>${I18n.t('reports.auditDate')}</th>
+              <th>${I18n.t('reports.score')}</th>
+              <th>${I18n.t('reports.status')}</th>
+              <th style="text-align: right;">${I18n.t('reports.actions')}</th>
             </tr>
           </thead>
           <tbody>
@@ -196,19 +196,19 @@ const Reports = {
                   <span style="font-weight: 700; color: ${r.completionRate >= 80 ? 'var(--success)' : 'var(--text-main)'}; font-size: 0.9375rem;">
                     ${r.completionRate || 0}%
                   </span>
-                  <div style="font-size: 0.72rem; color: var(--text-muted);">${r.completedItems || 0}/${r.totalItems || 0} passed</div>
+                  <div style="font-size: 0.72rem; color: var(--text-muted);">${r.completedItems || 0}/${r.totalItems || 0} ${I18n.t('reports.passedItems')}</div>
                 </td>
                 <td>${Utils.getStatusBadge(r.status)}</td>
                 <td style="text-align: right;">
                   <div style="display: inline-flex; gap: 0.4rem;">
-                    <a href="#report-detail/${r.id}" class="btn btn-primary btn-sm" title="View Full Report Document">
-                      View
+                    <a href="#report-detail/${r.id}" class="btn btn-primary btn-sm" title="${I18n.t('reports.viewReport')}">
+                      ${I18n.t('reports.view')}
                     </a>
-                    <button class="btn btn-secondary btn-sm print-report-btn" data-id="${r.id}" title="Print Report">
-                      Print
+                    <button class="btn btn-secondary btn-sm print-report-btn" data-id="${r.id}" title="${I18n.t('reports.printDocument')}">
+                      ${I18n.t('reports.print')}
                     </button>
-                    <button class="btn btn-secondary btn-sm download-pdf-btn" data-id="${r.id}" title="Download PDF">
-                      PDF
+                    <button class="btn btn-secondary btn-sm download-pdf-btn" data-id="${r.id}" title="${I18n.t('reports.downloadPdf')}">
+                      ${I18n.t('reports.pdf')}
                     </button>
                   </div>
                 </td>
@@ -262,7 +262,7 @@ const Reports = {
   renderDetail(container, inspectionId) {
     const insp = Storage.getInspectionById(inspectionId);
     if (!insp) {
-      container.innerHTML = `<div class="card" style="padding:2rem;text-align:center;"><h3>Report not found</h3><a href="#reports" class="btn btn-primary" style="margin-top:1rem;">Back to Reports</a></div>`;
+      container.innerHTML = `<div class="card" style="padding:2rem;text-align:center;"><h3>${I18n.t('reports.reportNotFound')}</h3><a href="#reports" class="btn btn-primary" style="margin-top:1rem;">${I18n.t('reports.backToReports')}</a></div>`;
       return;
     }
 
@@ -276,9 +276,13 @@ const Reports = {
     // Category breakdown
     const categoriesMap = {};
     items.forEach(it => {
-      if (!categoriesMap[it.categoryName]) {
-        categoriesMap[it.categoryName] = {
-          name: it.categoryName,
+      const catKey = it.categoryId || it.categoryName;
+      if (!categoriesMap[catKey]) {
+        categoriesMap[catKey] = {
+          id: it.categoryId,
+          name: I18n.t('categories.categoryNames.' + it.categoryId) !== `categories.categoryNames.${it.categoryId}`
+            ? I18n.t('categories.categoryNames.' + it.categoryId)
+            : it.categoryName,
           total: 0,
           completed: 0,
           partial: 0,
@@ -287,14 +291,14 @@ const Reports = {
           items: []
         };
       }
-      categoriesMap[it.categoryName].total++;
-      categoriesMap[it.categoryName].items.push(it);
+      categoriesMap[catKey].total++;
+      categoriesMap[catKey].items.push(it);
 
       const s = (it.status || 'unassessed').toLowerCase();
-      if (s === 'completed') categoriesMap[it.categoryName].completed++;
-      else if (s === 'partial') categoriesMap[it.categoryName].partial++;
-      else if (s === 'not_completed') categoriesMap[it.categoryName].notCompleted++;
-      else categoriesMap[it.categoryName].unassessed++;
+      if (s === 'completed') categoriesMap[catKey].completed++;
+      else if (s === 'partial') categoriesMap[catKey].partial++;
+      else if (s === 'not_completed') categoriesMap[catKey].notCompleted++;
+      else categoriesMap[catKey].unassessed++;
     });
 
     container.innerHTML = `
@@ -304,39 +308,39 @@ const Reports = {
           <div style="display: flex; align-items: center; gap: 0.5rem;">
             <a href="#reports" class="btn btn-secondary btn-sm">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
-              <span>Back</span>
+              <span>${I18n.t('reports.back')}</span>
             </a>
             <span style="font-weight: 700; font-size: 0.9375rem; color: var(--text-main);">
-              Report Viewer: ${reportId}
+              ${I18n.t('reports.reportViewer')}: ${reportId}
             </span>
           </div>
 
           <!-- Document Controls -->
           <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-            <button id="toggle-all-sections-btn" class="btn btn-secondary btn-sm" title="Expand / Collapse Category Sections">
-              <span id="expand-btn-text">Collapse All</span>
+            <button id="toggle-all-sections-btn" class="btn btn-secondary btn-sm" title="${I18n.t('reports.collapseAll')} / ${I18n.t('reports.expandAll')}">
+              <span id="expand-btn-text">${I18n.t('reports.collapseAll')}</span>
             </button>
 
             <!-- Filter checklist items -->
             <select id="report-item-filter" class="form-select" style="min-height: 36px; padding: 0.35rem 0.65rem; font-size: 0.8125rem; width: auto;">
-              <option value="all">Show All Tasks</option>
-              <option value="issues_only">Deficiencies Only (${issues.length})</option>
-              <option value="passed_only">Passed Only (${insp.completedItems || 0})</option>
+              <option value="all">${I18n.t('reports.showAllTasks')}</option>
+              <option value="issues_only">${I18n.t('reports.deficienciesOnly')} (${issues.length})</option>
+              <option value="passed_only">${I18n.t('reports.passedOnly')} (${insp.completedItems || 0})</option>
             </select>
 
-            <button id="print-report-action-btn" class="btn btn-secondary btn-sm" title="Print Report Document">
+            <button id="print-report-action-btn" class="btn btn-secondary btn-sm" title="${I18n.t('reports.printDocument')}">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-              <span>Print</span>
+              <span>${I18n.t('reports.print')}</span>
             </button>
 
-            <button id="download-pdf-action-btn" class="btn btn-primary btn-sm" title="Export as A4 PDF">
+            <button id="download-pdf-action-btn" class="btn btn-primary btn-sm" title="${I18n.t('reports.downloadPdf')}">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              <span>Download PDF</span>
+              <span>${I18n.t('reports.downloadPdf')}</span>
             </button>
 
-            <button id="share-report-action-btn" class="btn btn-secondary btn-sm" title="Share Report Link">
+            <button id="share-report-action-btn" class="btn btn-secondary btn-sm" title="${I18n.t('reports.share')}">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-              <span>Share</span>
+              <span>${I18n.t('reports.share')}</span>
             </button>
           </div>
         </div>
@@ -346,23 +350,23 @@ const Reports = {
       <div class="report-quick-nav no-print">
         <a href="#sec-overview" class="report-quick-pill" onclick="event.preventDefault(); document.getElementById('sec-overview').scrollIntoView({behavior: 'smooth'});">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-          <span>Overview</span>
+          <span>${I18n.t('reports.navOverview')}</span>
         </a>
         <a href="#sec-categories" class="report-quick-pill" onclick="event.preventDefault(); document.getElementById('sec-categories').scrollIntoView({behavior: 'smooth'});">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
-          <span>Categories (${Object.keys(categoriesMap).length})</span>
+          <span>${I18n.t('reports.navCategories')} (${Object.keys(categoriesMap).length})</span>
         </a>
         <a href="#sec-checklist" class="report-quick-pill active" onclick="event.preventDefault(); document.getElementById('sec-checklist').scrollIntoView({behavior: 'smooth'});">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
-          <span>Checklist (${items.length})</span>
+          <span>${I18n.t('reports.navChecklist')} (${items.length})</span>
         </a>
         <a href="#sec-issues" class="report-quick-pill" onclick="event.preventDefault(); document.getElementById('sec-issues').scrollIntoView({behavior: 'smooth'});">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span>Deficiencies (${issues.length})</span>
+          <span>${I18n.t('reports.navDeficiencies')} (${issues.length})</span>
         </a>
         <a href="#sec-signoff" class="report-quick-pill" onclick="event.preventDefault(); document.getElementById('sec-signoff').scrollIntoView({behavior: 'smooth'});">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          <span>Sign-off</span>
+          <span>${I18n.t('reports.navSignoff')}</span>
         </a>
       </div>
 
@@ -378,15 +382,15 @@ const Reports = {
               <div>
                 <img src="assets/logo.svg" alt="CleanInspect" style="height: 44px; margin-bottom: 0.5rem;" />
                 <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;">
-                  Cleaning Quality Inspection Report
+                  ${I18n.t('reports.docTitle')}
                 </h1>
                 <div style="font-size: 0.8125rem; color: var(--text-muted);">
-                  Standard Operating Procedure &bull; Facilities Hygiene &bull; Commercial Sanitation Audit
+                  ${I18n.t('reports.docSubtitle')}
                 </div>
               </div>
 
               <div style="text-align: right;">
-                <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Report Reference</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">${I18n.t('reports.reportRef')}</div>
                 <div style="font-size: 1.25rem; font-weight: 800; color: var(--primary);">${reportId}</div>
                 <div style="margin-top: 0.25rem;">${Utils.getStatusBadge(insp.status)}</div>
               </div>
@@ -395,22 +399,22 @@ const Reports = {
             <!-- Client & Facility Specifications Metadata Grid -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.25rem; padding: 1rem; background: var(--bg-subtle); border-radius: var(--radius-md); font-size: 0.8125rem;">
               <div>
-                <span style="color: var(--text-muted); display: block; font-size: 0.75rem;">CLIENT ORGANIZATION</span>
+                <span style="color: var(--text-muted); display: block; font-size: 0.75rem;">${I18n.t('reports.clientOrg')}</span>
                 <strong style="font-size: 0.9375rem; color: var(--text-main);">${Utils.escapeHtml(insp.client)}</strong>
               </div>
               <div>
-                <span style="color: var(--text-muted); display: block; font-size: 0.75rem;">FACILITY LOCATION</span>
+                <span style="color: var(--text-muted); display: block; font-size: 0.75rem;">${I18n.t('reports.facilityLoc')}</span>
                 <strong style="color: var(--text-main);">${Utils.escapeHtml(insp.location)}</strong>
                 <div style="font-size: 0.75rem; color: var(--text-secondary);">${Utils.escapeHtml(insp.address || '')}</div>
               </div>
               <div>
-                <span style="color: var(--text-muted); display: block; font-size: 0.75rem;">AUDIT DATE &amp; TIME</span>
+                <span style="color: var(--text-muted); display: block; font-size: 0.75rem;">${I18n.t('reports.auditDateTime')}</span>
                 <span style="color: var(--text-main); font-weight: 600;">${Utils.formatDateTime(insp.completedDate || insp.scheduledDate)}</span>
               </div>
               <div>
-                <span style="color: var(--text-muted); display: block; font-size: 0.75rem;">CERTIFIED INSPECTOR</span>
+                <span style="color: var(--text-muted); display: block; font-size: 0.75rem;">${I18n.t('reports.certifiedInspector')}</span>
                 <strong style="color: var(--text-main); font-size: 0.9375rem;">${Utils.escapeHtml(insp.inspector || 'David Wilson')}</strong>
-                <div style="font-size: 0.75rem; color: var(--text-secondary);">CleanInspect QA Certified</div>
+                <div style="font-size: 0.75rem; color: var(--text-secondary);">${I18n.t('reports.qaCertified')}</div>
               </div>
             </div>
           </div>
@@ -422,50 +426,50 @@ const Reports = {
             <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem;">
               <h2 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem;">
                 <span style="background: var(--primary); color: #fff; width: 24px; height: 24px; border-radius: var(--radius-sm); display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem;">A</span>
-                Inspection Overview &amp; Compliance Score
+                ${I18n.t('reports.secA')}
               </h2>
-              <span style="font-size: 0.8125rem; color: var(--text-muted);">Generated: ${generatedDateStr}</span>
+              <span style="font-size: 0.8125rem; color: var(--text-muted);">${I18n.t('reports.generated')}: ${generatedDateStr}</span>
             </div>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">
               <div style="background: #fff; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.75rem; text-align: center;">
-                <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">TOTAL TASKS</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">${I18n.t('reports.totalTasks')}</div>
                 <div style="font-size: 1.6rem; font-weight: 800; color: var(--text-main);">${insp.totalItems}</div>
               </div>
               <div style="background: var(--success-light); border: 1px solid var(--success-border); border-radius: var(--radius-md); padding: 0.75rem; text-align: center;">
-                <div style="font-size: 0.75rem; color: var(--success); font-weight: 600;">COMPLETED</div>
+                <div style="font-size: 0.75rem; color: var(--success); font-weight: 600;">${I18n.t('reports.completedBadge')}</div>
                 <div style="font-size: 1.6rem; font-weight: 800; color: var(--success);">${insp.completedItems}</div>
               </div>
               <div style="background: var(--warning-light); border: 1px solid var(--warning-border); border-radius: var(--radius-md); padding: 0.75rem; text-align: center;">
-                <div style="font-size: 0.75rem; color: var(--warning); font-weight: 600;">PARTIAL</div>
+                <div style="font-size: 0.75rem; color: var(--warning); font-weight: 600;">${I18n.t('reports.partialBadge')}</div>
                 <div style="font-size: 1.6rem; font-weight: 800; color: var(--warning);">${insp.partialItems}</div>
               </div>
               <div style="background: var(--danger-light); border: 1px solid var(--danger-border); border-radius: var(--radius-md); padding: 0.75rem; text-align: center;">
-                <div style="font-size: 0.75rem; color: var(--danger); font-weight: 600;">FAILED</div>
+                <div style="font-size: 0.75rem; color: var(--danger); font-weight: 600;">${I18n.t('reports.failedBadge')}</div>
                 <div style="font-size: 1.6rem; font-weight: 800; color: var(--danger);">${insp.notCompletedItems}</div>
               </div>
               <div style="background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.75rem; text-align: center;">
-                <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">UNASSESSED</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">${I18n.t('reports.unassessedBadge')}</div>
                 <div style="font-size: 1.6rem; font-weight: 800; color: var(--text-secondary);">${insp.unassessedItems}</div>
               </div>
               <div style="background: var(--primary-light); border: 1px solid var(--primary-border); border-radius: var(--radius-md); padding: 0.75rem; text-align: center;">
-                <div style="font-size: 0.75rem; color: var(--primary); font-weight: 700;">OVERALL SCORE</div>
+                <div style="font-size: 0.75rem; color: var(--primary); font-weight: 700;">${I18n.t('reports.overallScoreBadge')}</div>
                 <div style="font-size: 1.6rem; font-weight: 900; color: var(--primary);">${insp.completionRate}%</div>
               </div>
             </div>
 
             <div style="background: var(--bg-subtle); border-radius: var(--radius-md); padding: 1rem; border: 1px solid var(--border-color);">
               <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; font-weight: 700; margin-bottom: 0.35rem;">
-                <span>Compliance Benchmark Progress</span>
-                <span style="color: ${insp.completionRate >= 80 ? 'var(--success)' : 'var(--warning)'};">${insp.completionRate}% Compliance</span>
+                <span>${I18n.t('reports.benchmarkProgress')}</span>
+                <span style="color: ${insp.completionRate >= 80 ? 'var(--success)' : 'var(--warning)'};">${insp.completionRate}% ${I18n.t('reports.compliance')}</span>
               </div>
               <div class="progress-bar-container" style="height: 10px;">
                 <div class="progress-bar-fill ${insp.completionRate >= 80 ? 'success' : (insp.completionRate > 0 ? 'warning' : '')}" style="width: ${insp.completionRate}%;"></div>
               </div>
               <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted); margin-top: 0.35rem;">
-                <span>0% (Unacceptable)</span>
-                <span>80% (Pass Threshold)</span>
-                <span>100% (Impeccable)</span>
+                <span>${I18n.t('reports.unacceptable')}</span>
+                <span>${I18n.t('reports.passThreshold')}</span>
+                <span>${I18n.t('reports.impeccable')}</span>
               </div>
             </div>
           </div>
@@ -477,27 +481,27 @@ const Reports = {
             <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem;">
               <h2 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem;">
                 <span style="background: var(--primary); color: #fff; width: 24px; height: 24px; border-radius: var(--radius-sm); display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem;">B</span>
-                Category Performance Matrix
+                ${I18n.t('reports.secB')}
               </h2>
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 0.75rem;" id="category-accordion-list">
-              ${Object.keys(categoriesMap).map((catName, cIdx) => {
-                const catData = categoriesMap[catName];
+              ${Object.keys(categoriesMap).map((catKey, cIdx) => {
+                const catData = categoriesMap[catKey];
                 const catRate = Utils.calcCompletionRate(catData.completed, catData.total);
                 return `
                   <div class="card category-result-row" style="padding: 0.875rem 1.15rem;">
                     <div class="category-toggle-header" data-cat-idx="${cIdx}" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
                       <div style="flex: 1; min-width: 0;">
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
-                          <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text-main);">${Utils.escapeHtml(catName)}</h3>
-                          <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 500;">(${catData.total} items)</span>
+                          <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text-main);">${Utils.escapeHtml(catData.name)}</h3>
+                          <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 500;">(${catData.total} ${I18n.t('common.items')})</span>
                         </div>
                         <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.15rem;">
-                          <strong style="color: var(--success);">${catData.completed}</strong> Passed &bull; 
-                          <strong style="color: var(--warning);">${catData.partial}</strong> Partial &bull; 
-                          <strong style="color: var(--danger);">${catData.notCompleted}</strong> Failed &bull; 
-                          <strong style="color: var(--text-muted);">${catData.unassessed}</strong> Unassessed
+                          <strong style="color: var(--success);">${catData.completed}</strong> ${I18n.t('reports.passedLabel')} &bull; 
+                          <strong style="color: var(--warning);">${catData.partial}</strong> ${I18n.t('reports.partialLabel')} &bull; 
+                          <strong style="color: var(--danger);">${catData.notCompleted}</strong> ${I18n.t('reports.failedLabel')} &bull; 
+                          <strong style="color: var(--text-muted);">${catData.unassessed}</strong> ${I18n.t('reports.unassessedLabel')}
                         </div>
                       </div>
 
@@ -518,7 +522,7 @@ const Reports = {
                         <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem; font-size: 0.8125rem;">
                           <div style="flex: 1;">
                             <div style="font-weight: 600; color: var(--text-main);">${Utils.escapeHtml(it.task)}</div>
-                            ${it.comment ? `<div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.15rem; font-style: italic;">Note: ${Utils.escapeHtml(it.comment)}</div>` : ''}
+                            ${it.comment ? `<div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.15rem; font-style: italic;">${I18n.t('reports.inspectorObservation')}: ${Utils.escapeHtml(it.comment)}</div>` : ''}
                           </div>
                           <div>${Utils.getStatusBadge(it.status)}</div>
                         </div>
@@ -537,19 +541,19 @@ const Reports = {
             <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
               <h2 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem;">
                 <span style="background: var(--primary); color: #fff; width: 24px; height: 24px; border-radius: var(--radius-sm); display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem;">C</span>
-                Full Inspection Checklist Detail
+                ${I18n.t('reports.secC')}
               </h2>
               <span style="font-size: 0.8125rem; color: var(--text-muted); font-weight: 500;">
-                ${items.length} Evaluated Standards
+                ${items.length} ${I18n.t('reports.evaluatedStandards')}
               </span>
             </div>
 
             <!-- Quick Filter Chips for Checklist Tasks -->
             <div style="display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 1rem;" class="no-print">
-              <button class="btn btn-sm btn-primary active task-filter-chip" data-filter="all">All (${items.length})</button>
-              <button class="btn btn-sm btn-secondary task-filter-chip" data-filter="issues_only">Deficiencies (${issues.length})</button>
-              <button class="btn btn-sm btn-secondary task-filter-chip" data-filter="photos_only">With Photos (${items.filter(it => it.photos && it.photos.length > 0).length})</button>
-              <button class="btn btn-sm btn-secondary task-filter-chip" data-filter="passed_only">Passed (${insp.completedItems || 0})</button>
+              <button class="btn btn-sm btn-primary active task-filter-chip" data-filter="all">${I18n.t('reports.filterAll')} (${items.length})</button>
+              <button class="btn btn-sm btn-secondary task-filter-chip" data-filter="issues_only">${I18n.t('reports.filterDeficiencies')} (${issues.length})</button>
+              <button class="btn btn-sm btn-secondary task-filter-chip" data-filter="photos_only">${I18n.t('reports.filterWithPhotos')} (${items.filter(it => it.photos && it.photos.length > 0).length})</button>
+              <button class="btn btn-sm btn-secondary task-filter-chip" data-filter="passed_only">${I18n.t('reports.filterPassed')} (${insp.completedItems || 0})</button>
             </div>
 
             <div id="full-checklist-report-container" style="display: flex; flex-direction: column; gap: 0.85rem;">
@@ -558,13 +562,16 @@ const Reports = {
                 const photos = Array.isArray(it.photos) ? it.photos : [];
                 const hasPhotos = photos.length > 0;
                 const isDeficient = s === 'partial' || s === 'not_completed';
+                const catDisplayName = I18n.t('categories.categoryNames.' + it.categoryId) !== `categories.categoryNames.${it.categoryId}`
+                  ? I18n.t('categories.categoryNames.' + it.categoryId)
+                  : it.categoryName;
 
                 return `
                   <div class="report-task-card is-${s}" data-status="${s}" data-has-photos="${hasPhotos}">
                     <!-- Card Header Row -->
                     <div class="report-task-header">
                       <span class="report-cat-badge">
-                        ${Utils.escapeHtml(it.categoryName)}
+                        ${Utils.escapeHtml(catDisplayName)}
                       </span>
                       <div>${Utils.getStatusBadge(it.status)}</div>
                     </div>
@@ -579,7 +586,7 @@ const Reports = {
                       <div class="report-observation-callout ${s === 'partial' ? 'is-warning' : (s === 'not_completed' ? 'is-danger' : '')}">
                         <div class="report-observation-label">
                           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                          <span>Inspector Observation</span>
+                          <span>${I18n.t('reports.inspectorObservation')}</span>
                         </div>
                         <p class="report-observation-text">${Utils.escapeHtml(it.comment)}</p>
                       </div>
@@ -590,7 +597,7 @@ const Reports = {
                       <div style="margin-top: 0.75rem;">
                         <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.35rem;">
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                          <span>Photographic Evidence (${photos.length})</span>
+                          <span>${I18n.t('reports.photoEvidence')} (${photos.length})</span>
                         </div>
                         <div class="report-photo-gallery">
                           ${photos.map((src, pIdx) => `
@@ -598,12 +605,12 @@ const Reports = {
                               <div class="report-photo-media">
                                 <img src="${src}" alt="Checklist Photo Evidence" loading="lazy" />
                                 <div class="report-photo-overlay">
-                                  <span>🔍 Tap to enlarge</span>
+                                  <span>${I18n.t('reports.tapToEnlarge')}</span>
                                 </div>
                               </div>
                               <div class="report-photo-caption">
-                                <span class="report-photo-badge">📸 Evidence #${pIdx + 1}</span>
-                                <span class="report-photo-tag">Verified Photo</span>
+                                <span class="report-photo-badge">${I18n.t('reports.evidenceNum')}${pIdx + 1}</span>
+                                <span class="report-photo-tag">${I18n.t('reports.verifiedPhoto')}</span>
                               </div>
                             </div>
                           `).join('')}
@@ -623,24 +630,27 @@ const Reports = {
             <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem;">
               <h2 style="font-size: 1.15rem; font-weight: 800; color: var(--danger); display: flex; align-items: center; gap: 0.5rem;">
                 <span style="background: var(--danger); color: #fff; width: 24px; height: 24px; border-radius: var(--radius-sm); display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem;">D</span>
-                Issues, Non-Compliances &amp; Findings (${issues.length})
+                ${I18n.t('reports.secD')} (${issues.length})
               </h2>
             </div>
 
             ${issues.length === 0 ? `
               <div class="card" style="padding: 1.5rem; text-align: center; background: var(--success-light); border-color: var(--success-border);">
-                <strong style="color: var(--success);">Zero Non-Compliances Recorded. Facility fully passed inspection criteria.</strong>
+                <strong style="color: var(--success);">${I18n.t('reports.zeroNonCompliances')}</strong>
               </div>
             ` : `
               <div style="display: flex; flex-direction: column; gap: 1rem;">
                 ${issues.map((iss, idx) => {
                   const photos = Array.isArray(iss.photos) ? iss.photos : [];
                   const priority = iss.status === 'not_completed' ? 'High' : 'Medium';
+                  const catDisplayName = I18n.t('categories.categoryNames.' + iss.categoryId) !== `categories.categoryNames.${iss.categoryId}`
+                    ? I18n.t('categories.categoryNames.' + iss.categoryId)
+                    : iss.categoryName;
                   return `
                     <div class="card report-issue-card" style="padding: 1.25rem; border: 1.5px solid var(--danger-border); background: #fff; border-radius: var(--radius-lg);">
                       <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
                         <div>
-                          <span style="font-size: 0.75rem; font-weight: 800; color: var(--danger);">FINDING #${idx + 1} &bull; ${Utils.escapeHtml(iss.categoryName)}</span>
+                          <span style="font-size: 0.75rem; font-weight: 800; color: var(--danger);">${I18n.t('reports.findingNum')}${idx + 1} &bull; ${Utils.escapeHtml(catDisplayName)}</span>
                           <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-top: 0.15rem;">
                             ${Utils.escapeHtml(iss.task)}
                           </h3>
@@ -652,14 +662,14 @@ const Reports = {
                       </div>
 
                       <div style="background: var(--danger-light); border-left: 3.5px solid var(--danger); padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.875rem; color: #7F1D1D; margin: 0.75rem 0;">
-                        <strong style="display: block; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 0.25rem;">Deficiency Observation:</strong>
+                        <strong style="display: block; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 0.25rem;">${I18n.t('reports.deficiencyObsLabel')}</strong>
                         ${Utils.escapeHtml(iss.comment || 'Deficiency identified during inspection audit. Remediation required.')}
                       </div>
 
                       ${photos.length > 0 ? `
                         <div>
                           <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.35rem; text-transform: uppercase;">
-                            Attached Evidence Photos (${photos.length})
+                            ${I18n.t('reports.attachedEvidencePhotos')} (${photos.length})
                           </div>
                           <div class="report-photo-gallery">
                             ${photos.map((src, pIdx) => `
@@ -667,19 +677,19 @@ const Reports = {
                                 <div class="report-photo-media">
                                   <img src="${src}" alt="Issue Evidence" loading="lazy" />
                                   <div class="report-photo-overlay">
-                                    <span>🔍 Tap to enlarge</span>
+                                    <span>${I18n.t('reports.tapToEnlarge')}</span>
                                   </div>
                                 </div>
                                 <div class="report-photo-caption">
-                                  <span class="report-photo-badge">📸 Finding Photo #${pIdx + 1}</span>
-                                  <span class="report-photo-tag">Quality Audit</span>
+                                  <span class="report-photo-badge">${I18n.t('reports.evidenceNum')}${pIdx + 1}</span>
+                                  <span class="report-photo-tag">${I18n.t('reports.verifiedPhoto')}</span>
                                 </div>
                               </div>
                             `).join('')}
                           </div>
                         </div>
                       ` : `
-                        <div style="font-size: 0.75rem; color: var(--text-muted); font-style: italic;">No photo evidence attached.</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted); font-style: italic;">${I18n.t('reports.noPhotosAttached')}</div>
                       `}
                     </div>
                   `;
@@ -695,14 +705,14 @@ const Reports = {
             <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem;">
               <h2 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem;">
                 <span style="background: var(--primary); color: #fff; width: 24px; height: 24px; border-radius: var(--radius-sm); display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem;">E</span>
-                Inspector Observations &amp; Remediation Plan
+                ${I18n.t('reports.secE')}
               </h2>
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 1rem;">
               <div class="card" style="padding: 1rem;">
                 <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.25rem;">
-                  1. Overall Facility Observations
+                  ${I18n.t('reports.overallObsTitle')}
                 </div>
                 <p style="font-size: 0.875rem; color: var(--text-main); line-height: 1.5;">
                   ${Utils.escapeHtml(insp.generalObservations || 'The facility exhibits good baseline sanitation standards with consistent trash clearance and polished floor surfaces. Janitorial logs were verified.')}
@@ -711,7 +721,7 @@ const Reports = {
 
               <div class="card" style="padding: 1rem;">
                 <div style="font-size: 0.75rem; font-weight: 700; color: var(--warning); text-transform: uppercase; margin-bottom: 0.25rem;">
-                  2. Priority Areas Requiring Attention
+                  ${I18n.t('reports.priorityAreasTitle')}
                 </div>
                 <p style="font-size: 0.875rem; color: var(--text-main); line-height: 1.5;">
                   ${Utils.escapeHtml(insp.areasRequiringAttention || (issues.length > 0 ? 'Remediate identified deficiencies listed in Section D, focusing on restocking washroom consumables and deep cleaning kitchen surfaces.' : 'No major hygiene concerns identified during this inspection cycle.'))}
@@ -720,7 +730,7 @@ const Reports = {
 
               <div class="card" style="padding: 1rem;">
                 <div style="font-size: 0.75rem; font-weight: 700; color: var(--primary); text-transform: uppercase; margin-bottom: 0.25rem;">
-                  3. Recommended Corrective Actions
+                  ${I18n.t('reports.remedActionsTitle')}
                 </div>
                 <p style="font-size: 0.875rem; color: var(--text-main); line-height: 1.5;">
                   ${Utils.escapeHtml(insp.recommendedActions || 'Schedule follow-up porter inspection within 24 hours to confirm remediation of any flagged tasks. Maintain daily sign-off logs on restroom doors.')}
@@ -736,7 +746,7 @@ const Reports = {
             <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem;">
               <h2 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem;">
                 <span style="background: var(--primary); color: #fff; width: 24px; height: 24px; border-radius: var(--radius-sm); display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem;">F</span>
-                Sign-off &amp; Regulatory Attestation
+                ${I18n.t('reports.secF')}
               </h2>
             </div>
 
@@ -744,13 +754,13 @@ const Reports = {
               <!-- Inspector Attestation -->
               <div style="border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem; background: var(--bg-subtle);">
                 <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem;">
-                  Certified Inspector Attestation
+                  ${I18n.t('reports.certifiedAttestation')}
                 </div>
                 <div style="font-size: 1.1rem; font-weight: 800; color: var(--text-main);">
                   ${Utils.escapeHtml(insp.inspector || 'David Wilson')}
                 </div>
                 <div style="font-size: 0.8125rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                  Lead Quality Inspector &bull; CleanInspect QA
+                  ${I18n.t('reports.leadInspector')}
                 </div>
 
                 <!-- Signature Simulation (Authentic handwriting style SVG) -->
@@ -760,7 +770,7 @@ const Reports = {
                   </svg>
                 </div>
                 <div style="font-size: 0.75rem; color: var(--text-muted); display: flex; justify-content: space-between;">
-                  <span>Verified Electronic Signature</span>
+                  <span>${I18n.t('reports.verifiedSignature')}</span>
                   <span>${Utils.formatDate(insp.completedDate || insp.scheduledDate)}</span>
                 </div>
               </div>
@@ -768,24 +778,24 @@ const Reports = {
               <!-- Supervisor Review -->
               <div style="border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem; background: var(--bg-subtle);">
                 <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem;">
-                  Supervisor Review Status
+                  ${I18n.t('reports.supervisorStatus')}
                 </div>
                 ${insp.signOff && insp.signOff.supervisorReviewed ? `
                   <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                    <span class="badge badge-completed"><span class="badge-dot"></span>Supervisor Approved</span>
+                    <span class="badge badge-completed"><span class="badge-dot"></span>${I18n.t('reports.supervisorApproved')}</span>
                   </div>
                   <div style="font-size: 0.95rem; font-weight: 700; color: var(--text-main);">
                     ${Utils.escapeHtml(insp.signOff.supervisorName || 'Sarah Jenkins (Operations Director)')}
                   </div>
                   <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
-                    Reviewed &amp; archived on: ${Utils.formatDate(insp.signOff.reviewDate || insp.completedDate)}
+                    ${I18n.t('reports.reviewedOn')} ${Utils.formatDate(insp.signOff.reviewDate || insp.completedDate)}
                   </div>
                 ` : `
                   <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                    <span class="badge badge-unassessed"><span class="badge-dot"></span>Pending Operations Review</span>
+                    <span class="badge badge-unassessed"><span class="badge-dot"></span>${I18n.t('reports.pendingSupervisor')}</span>
                   </div>
                   <p style="font-size: 0.8125rem; color: var(--text-secondary); margin-top: 0.25rem;">
-                    Submitted by inspector. Queued for regional supervisor validation.
+                    ${I18n.t('reports.pendingSupervisorDesc')}
                   </p>
                 `}
               </div>
@@ -793,7 +803,7 @@ const Reports = {
 
             <!-- Audit Trail Footer -->
             <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-color); text-align: center; font-size: 0.72rem; color: var(--text-light);">
-              CleanInspect Quality Assurance &bull; Report ID: ${reportId} &bull; Inspection: ${insp.reference} &bull; Generated locally from browser storage
+              ${I18n.t('reports.footerAuditTrail', { reportId, ref: insp.reference })}
             </div>
 
           </div>
@@ -834,7 +844,7 @@ const Reports = {
         container.querySelectorAll('.chevron-icon').forEach(ch => {
           ch.style.transform = allExpanded ? 'rotate(0deg)' : 'rotate(-90deg)';
         });
-        expandBtnText.textContent = allExpanded ? 'Collapse All' : 'Expand All';
+        expandBtnText.textContent = allExpanded ? I18n.t('reports.collapseAll') : I18n.t('reports.expandAll');
       });
     }
 
