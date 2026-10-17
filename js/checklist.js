@@ -121,12 +121,13 @@ const Checklist = {
       </div>
 
       <!-- Bottom Navigation / Action Bar -->
-      <div class="action-bar-sticky card" style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-top: 1.5rem;">
-        <button id="save-progress-btn" class="btn btn-secondary" style="flex: 1;">
+      <div class="action-bar-sticky">
+        <button id="save-progress-btn" class="btn btn-secondary">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-          Save Progress
+          <span class="btn-label-desktop">Save Progress</span>
+          <span class="btn-label-mobile">Save</span>
         </button>
-        <button id="next-page-btn" class="btn btn-primary" style="flex: 1.4;">
+        <button id="next-page-btn" class="btn btn-primary">
           <span>Next: Issues &amp; Evidence</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </button>
@@ -496,15 +497,19 @@ const Checklist = {
       </div>
 
       <!-- Action Bar Sticky -->
-      <div class="action-bar-sticky card" style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;">
-        <a href="#checklist/${insp.id}" class="btn btn-secondary" style="flex: 1;">
-          &larr; Back to Checklist
+      <div class="action-bar-sticky">
+        <a href="#checklist/${insp.id}" class="btn btn-secondary">
+          <span class="btn-label-desktop">&larr; Back to Checklist</span>
+          <span class="btn-label-mobile">&larr; Checklist</span>
         </a>
-        <button id="save-evidence-btn" class="btn btn-secondary" style="flex: 1;">
-          Save Progress
+        <button id="save-evidence-btn" class="btn btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          <span class="btn-label-desktop">Save Progress</span>
+          <span class="btn-label-mobile">Save</span>
         </button>
-        <button id="continue-summary-btn" class="btn btn-primary" style="flex: 1.4;">
-          Continue to Summary &rarr;
+        <button id="continue-summary-btn" class="btn btn-primary">
+          <span class="btn-label-desktop">Continue to Summary &rarr;</span>
+          <span class="btn-label-mobile">Summary &rarr;</span>
         </button>
       </div>
     `;

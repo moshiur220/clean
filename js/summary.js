@@ -199,11 +199,12 @@ const Summary = {
       </div>
 
       <!-- Action Bar Sticky -->
-      <div class="action-bar-sticky card" style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;">
-        <a href="#checklist/${insp.id}" class="btn btn-secondary" style="flex: 1;">
-          &larr; Back to Checklist
+      <div class="action-bar-sticky">
+        <a href="#checklist/${insp.id}" class="btn btn-secondary">
+          <span class="btn-label-desktop">&larr; Back to Checklist</span>
+          <span class="btn-label-mobile">&larr; Checklist</span>
         </a>
-        <a href="#review/${insp.id}" class="btn btn-primary" style="flex: 1.4;">
+        <a href="#review/${insp.id}" class="btn btn-primary">
           <span>Review &amp; Submit</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
@@ -354,13 +355,15 @@ const Summary = {
       </div>
 
       <!-- Action Bar Sticky -->
-      <div class="action-bar-sticky card" style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;">
-        <a href="#summary/${insp.id}" class="btn btn-secondary" style="flex: 1;">
-          Edit Inspection
+      <div class="action-bar-sticky">
+        <a href="#summary/${insp.id}" class="btn btn-secondary">
+          <span class="btn-label-desktop">Edit Inspection</span>
+          <span class="btn-label-mobile">Edit</span>
         </a>
-        <button id="confirm-submit-btn" class="btn btn-success" style="flex: 1.5;">
+        <button id="confirm-submit-btn" class="btn btn-success">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          Confirm Submission
+          <span class="btn-label-desktop">Confirm Submission</span>
+          <span class="btn-label-mobile">Submit</span>
         </button>
       </div>
     `;
